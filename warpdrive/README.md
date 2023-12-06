@@ -60,7 +60,7 @@ This initialises the canary which is used to detect a buffer overflow out of the
 After `fgets`-ing 40 bytes into `input`, we call sscanf, which is essentially scanf but the input comes from the first parameter instead of stdin.
 
 (to view the value of the second parameter of sscanf, simply double click `DAT_whatever`)
-![20231206_21-35-33](https://hackmd.io/_uploads/r1aH1ZRBp.png)
+![scanf](images/img1.png)
 
 
 <br>
@@ -86,11 +86,11 @@ Essentially, the program allows you to jump to wherever in memory you want to go
 To answer this, we shall look into the layout of the program in the stack.  
 Going back to ghidra, we see in the assembly code that `hack_fn` lies at `[RBP-0x38]`, while `input` lies at `[RBP-0x30]`.  
 
-![image](https://hackmd.io/_uploads/Bk9a7fCH6.png)
+![asm](images/img2.png)
 
 For your convenience, below is a visualisation of the stack by running `tel` in GEF just after the `fgets` call.
 
-![20231206_22-14-54](https://hackmd.io/_uploads/B1-EGZABp.png)
+![GEF1](images/img3.png)
 
 NOTE: you write towards the higher address, i.e. towards RBP.  
 This means that the 40 bytes of `input` lies from the line 0x10 to 0x30 (inclusive)
@@ -143,7 +143,7 @@ p.interactive()
 Notice that instead of adding 0x8 as the offset of the code from the leaked address, I also added the length of the payload.  
 Since we also have to fit the address to jump to at the start of the buffer, the code lies later into the stack.
 
-![image](https://hackmd.io/_uploads/rybefM0Ha.png)
+![GEF2](images/img4.png)
 
 screenshot for visualisation purposes.  
 The shellcode starts at 0x20 while the leaked address is at 0x8 because the length of "my_addr" is 7. (8+7+1 = 16 = 0x10)
